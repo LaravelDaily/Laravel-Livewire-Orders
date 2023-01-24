@@ -14,7 +14,6 @@ class CategoryFactory extends Factory
         return [
             'name' => $name,
             'slug' => Str::slug($name),
-            'position' => $this->faker->unique()->randomNumber(2),
         ];
     }
 }
