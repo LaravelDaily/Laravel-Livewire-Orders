@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Livewire\WithPagination;
+use Illuminate\Support\Collection;
 use Illuminate\Contracts\View\View;
 
 class CategoriesList extends Component
@@ -13,6 +14,8 @@ class CategoriesList extends Component
     use WithPagination;
 
     public Category $category;
+
+    public Collection $categories;
 
     public bool $showModal = false;
 
@@ -34,6 +37,8 @@ class CategoriesList extends Component
     {
         $this->validate();
 
+        $this->category->position = Category::max('position') + 1;
+
         $this->category->save();
 
         $this->reset('showModal');
@@ -46,16 +51,29 @@ class CategoriesList extends Component
         ]);
     }
 
+    public function updateOrder($list)
+    {
+        foreach ($list as $item) {
+            $cat = $this->categories->firstWhere('id', $item['value']);
+
+            if ($cat['position'] != $item['order']) {
+                Category::where('id', $item['value'])->update(['position' => $item['order']]);
+            }
+        }
+    }
+
     public function render(): View
     {
-        $categories = Category::paginate(10);
+        $cats = Category::orderBy('position')->paginate(10);
+        $links = $cats->links();
+        $this->categories = collect($cats->items());
 
-        $this->active = $categories->mapWithKeys(
+        $this->active = $this->categories->mapWithKeys(
             fn (Category $item) => [$item['id'] => (bool) $item['is_active']]
         )->toArray();
 
         return view('livewire.categories-list', [
-            'categories' => $categories,
+            'links' => $links,
         ]);
     }
 
