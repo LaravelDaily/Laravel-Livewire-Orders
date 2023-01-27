@@ -45,12 +45,31 @@
                                                 </svg>
                                             </button>
                                         </td>
-                                        <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
+
+                                        {{-- Inline Edit Start --}}
+                                        <td class="@if($editedCategoryId !== $category->id) hidden @endif px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
+                                            <x-text-input wire:model="category.name" id="category.name" class="py-2 pr-4 pl-2 w-full text-sm rounded-lg border border-gray-400 sm:text-base focus:outline-none focus:border-blue-400" />
+                                            @error('category.name')
+                                                <span class="text-sm text-red-500">{{ $message }}</span>
+                                            @enderror
+                                        </td>
+                                        <td class="@if($editedCategoryId !== $category->id) hidden @endif px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
+                                            <x-text-input wire:model="category.slug" id="category.slug" class="py-2 pr-4 pl-2 w-full text-sm rounded-lg border border-gray-400 sm:text-base focus:outline-none focus:border-blue-400" />
+                                            @error('category.slug')
+                                                <span class="text-sm text-red-500">{{ $message }}</span>
+                                            @enderror
+                                        </td>
+                                        {{-- Inline Edit End --}}
+
+                                        {{-- Show Category Name/Slug Start --}}
+                                        <td class="@if($editedCategoryId === $category->id) hidden @endif px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
                                             {{ $category->name }}
                                         </td>
-                                        <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
+                                        <td class="@if($editedCategoryId === $category->id) hidden @endif px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
                                             {{ $category->slug }}
                                         </td>
+                                        {{-- Show Category Name/Slug End --}}
+
                                         <td class="px-6">
                                             <div class="inline-block relative mr-2 w-10 align-middle transition duration-200 ease-in select-none">
                                                 <input wire:model="active.{{ $category->id }}" wire:click="toggleIsActive({{ $category->id }})" type="checkbox" name="toggle" id="{{ $loop->index.$category->id }}" class="block absolute w-6 h-6 bg-white rounded-full border-4 appearance-none cursor-pointer focus:outline-none toggle-checkbox" />
@@ -58,12 +77,21 @@
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
-                                            <x-primary-button>
-                                                Edit
-                                            </x-primary-button>
-                                            <button class="px-4 py-2 text-xs text-red-500 uppercase bg-red-200 rounded-md border border-transparent hover:text-red-700 hover:bg-red-300">
-                                                Delete
-                                            </button>
+                                            @if($editedCategoryId === $category->id)
+                                                <x-primary-button wire:click="save">
+                                                    Save
+                                                </x-primary-button>
+                                                <x-primary-button wire:click="cancelCategoryEdit">
+                                                    Cancel
+                                                </x-primary-button>
+                                            @else
+                                                <x-primary-button wire:click="editCategory({{ $category->id }})">
+                                                    Edit
+                                                </x-primary-button>
+                                                <button class="px-4 py-2 text-xs text-red-500 uppercase bg-red-200 rounded-md border border-transparent hover:text-red-700 hover:bg-red-300">
+                                                    Delete
+                                                </button>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
