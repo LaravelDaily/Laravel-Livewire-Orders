@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Livewire\ProductsList;
 use App\Http\Livewire\CategoriesList;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,7 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('categories', CategoriesList::class)->name('categories.index');
+    Route::get('products', ProductsList::class)->name('products.index');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
