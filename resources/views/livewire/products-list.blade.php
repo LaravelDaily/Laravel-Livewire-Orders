@@ -39,6 +39,44 @@
                                     <th class="px-6 py-3 text-left bg-gray-50">
                                     </th>
                                 </tr>
+                                <tr>
+                                    <td></td>
+                                    <td class="px-2 py-2">
+                                        <input wire:model="searchColumns.name" type="text" placeholder="Search..."
+                                               class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                                    </td>
+                                    <td class="px-2 py-1">
+                                        <select wire:model="searchColumns.category_id"
+                                                class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                            <option value="">-- choose category --</option>
+                                            @foreach($categories as $id => $category)
+                                                <option value="{{ $id }}">{{ $category }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td class="px-2 py-1">
+                                        <select wire:model="searchColumns.country_id"
+                                                class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                            <option value="">-- choose country --</option>
+                                            @foreach($countries as $id => $country)
+                                                <option value="{{ $id }}">{{ $country }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td class="px-2 py-1 text-sm">
+                                        <div>
+                                            From
+                                            <input wire:model="searchColumns.price.0" type="number"
+                                                   class="mr-2 w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                                        </div>
+                                        <div>
+                                            to
+                                            <input wire:model="searchColumns.price.1" type="number"
+                                                   class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                </tr>
                             </thead>
 
                             <tbody class="bg-white divide-y divide-gray-200 divide-solid">
