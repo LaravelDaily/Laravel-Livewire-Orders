@@ -7,7 +7,11 @@ use App\Models\Product;
 use App\Models\Country;
 use App\Models\Category;
 use Livewire\WithPagination;
+use App\Exports\ProductsExport;
 use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class ProductsList extends Component
 {
@@ -86,6 +90,13 @@ class ProductsList extends Component
             $this->reset('sortDirection');
             $this->sortColumn = $column;
         }
+    }
+
+    public function export($format): BinaryFileResponse
+    {
+        abort_if(! in_array($format, ['csv', 'xlsx', 'pdf']), Response::HTTP_NOT_FOUND);
+
+        return Excel::download(new ProductsExport($this->selected), 'products.' . $format);
     }
 
     public function render(): View
