@@ -24,17 +24,32 @@
                                 <tr>
                                     <th class="px-6 py-3 text-left bg-gray-50">
                                     </th>
-                                    <th class="px-6 py-3 text-left bg-gray-50">
+                                    <th wire:click="sortByColumn('products.name')" class="px-6 py-3 text-left bg-gray-50">
                                         <span class="text-xs font-medium tracking-wider leading-4 text-gray-500 uppercase">Name</span>
+                                        @if ($sortColumn == 'products.name')
+                                            @include('svg.sort-' . $sortDirection)
+                                        @else
+                                            @include('svg.sort')
+                                        @endif
                                     </th>
                                     <th class="px-6 py-3 text-left bg-gray-50">
                                         <span class="text-xs font-medium tracking-wider leading-4 text-gray-500 uppercase">Categories</span>
                                     </th>
-                                    <th class="px-6 py-3 text-left bg-gray-50">
+                                    <th wire:click="sortByColumn('countryName')" class="px-6 py-3 text-left bg-gray-50">
                                         <span class="text-xs font-medium tracking-wider leading-4 text-gray-500 uppercase">Country</span>
+                                        @if ($sortColumn == 'countryName')
+                                            @include('svg.sort-' . $sortDirection)
+                                        @else
+                                            @include('svg.sort')
+                                        @endif
                                     </th>
-                                    <th class="px-6 py-3 w-32 text-left bg-gray-50">
+                                    <th wire:click="sortByColumn('price')" class="px-6 py-3 w-32 text-left bg-gray-50">
                                         <span class="text-xs font-medium tracking-wider leading-4 text-gray-500 uppercase">Price</span>
+                                        @if ($sortColumn == 'price')
+                                            @include('svg.sort-' . $sortDirection)
+                                        @else
+                                            @include('svg.sort')
+                                        @endif
                                     </th>
                                     <th class="px-6 py-3 text-left bg-gray-50">
                                     </th>
