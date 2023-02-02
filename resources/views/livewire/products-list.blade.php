@@ -10,6 +10,12 @@
             <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
 
+                    @error('orderexist')
+                        <div class="p-3 mb-4 text-green-700 bg-green-200">
+                            {!! $message !!}
+                        </div>
+                    @enderror
+
                     <div class="mb-4">
                         <div class="mb-4">
                             <a href="{{ route('products.create') }}" class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase bg-gray-800 rounded-md border border-transparent hover:bg-gray-700">
