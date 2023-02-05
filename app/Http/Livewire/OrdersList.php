@@ -98,7 +98,7 @@ class OrdersList extends Component
 
     public function deleteSelected(): void
     {
-        $orders = Order::with('orders')->whereIn('id', $this->selected)->get();
+        $orders = Order::whereIn('id', $this->selected)->get();
 
         $orders->each->delete();
 
