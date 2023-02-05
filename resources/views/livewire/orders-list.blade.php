@@ -12,7 +12,7 @@
 
                     <div class="mb-4">
                         <div class="mb-4">
-                            <a class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase bg-gray-800 rounded-md border border-transparent hover:bg-gray-700">
+                            <a href="{{ route('orders.create') }}" class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase bg-gray-800 rounded-md border border-transparent hover:bg-gray-700">
                                 Create Order
                             </a>
                         </div>
@@ -156,7 +156,7 @@
                                             ${{ number_format($order->total / 100, 2) }}
                                         </td>
                                         <td>
-                                            <a class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase bg-gray-800 rounded-md border border-transparent hover:bg-gray-700">
+                                            <a href="{{ route('orders.edit', $order) }}" class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase bg-gray-800 rounded-md border border-transparent hover:bg-gray-700">
                                                 Edit
                                             </a>
                                             <button wire:click="deleteConfirm({{ $order->id }})" class="px-4 py-2 text-xs text-red-500 uppercase bg-red-200 rounded-md border border-transparent hover:text-red-700 hover:bg-red-300">
