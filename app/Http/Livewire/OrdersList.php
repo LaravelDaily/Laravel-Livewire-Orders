@@ -80,6 +80,31 @@ class OrdersList extends Component
         ]);
     }
 
+    public function deleteConfirm($method, $id = null): void
+    {
+        $this->dispatchBrowserEvent('swal:confirm', [
+            'type'  => 'warning',
+            'title' => 'Are you sure?',
+            'text'  => '',
+            'id'    => $id,
+            'method' => $method,
+        ]);
+    }
+
+    public function delete($id): void
+    {
+        Order::findOrFail($id)->delete();
+    }
+
+    public function deleteSelected(): void
+    {
+        $orders = Order::with('orders')->whereIn('id', $this->selected)->get();
+
+        $orders->each->delete();
+
+        $this->reset('selected');
+    }
+
     public function getSelectedCountProperty(): int
     {
         return count($this->selected);
