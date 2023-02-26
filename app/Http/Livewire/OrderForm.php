@@ -38,7 +38,7 @@ class OrderForm extends Component
                     'product_id' => $product->id,
                     'quantity' => $product->pivot->quantity,
                     'product_name' => $product->name,
-                    'product_price' => number_format($product->pivot->price / 100, 2),
+                    'product_price' => $product->pivot->price,
                     'is_saved' => true,
                 ];
             }
@@ -100,10 +100,6 @@ class OrderForm extends Component
     {
         $this->validate();
 
-        $this->order->subtotal = $this->order->subtotal * 100;
-        $this->order->total = $this->order->total * 100;
-        $this->order->taxes = $this->order->taxes * 100;
-
         $this->order->order_date = Carbon::parse($this->order->order_date)->format('Y-m-d');
 
         $this->order->save();
@@ -111,7 +107,7 @@ class OrderForm extends Component
         $products = [];
 
         foreach ($this->orderProducts as $product) {
-            $products[$product['product_id']] = ['price' => $product['product_price'] * 100, 'quantity' => $product['quantity']];
+            $products[$product['product_id']] = ['price' => $product['product_price'], 'quantity' => $product['quantity']];
         }
 
         $this->order->products()->sync($products);

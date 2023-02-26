@@ -52,7 +52,7 @@
                                                 <input type="hidden" name="orderProducts[{{$index}}][product_id]" wire:model="orderProducts.{{$index}}.product_id" />
                                                 @if($orderProduct['product_name'] && $orderProduct['product_price'])
                                                     {{ $orderProduct['product_name'] }}
-                                                    (${{ number_format($orderProduct['product_price'], 2) }})
+                                                    (${{ number_format($orderProduct['product_price'] / 100, 2) }})
                                                 @endif
                                             @else
                                                 <select name="orderProducts[{{ $index }}][product_id]" class="focus:outline-none w-full border {{ $errors->has('$orderProducts.' . $index) ? 'border-red-500' : 'border-indigo-500' }} rounded-md p-1" wire:model="orderProducts.{{ $index }}.product_id">
@@ -60,7 +60,7 @@
                                                     @foreach ($this->allProducts as $product)
                                                         <option value="{{ $product->id }}">
                                                             {{ $product->name }}
-                                                            (${{ number_format($product->price, 2) }})
+                                                            (${{ number_format($product->price / 100, 2) }})
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -112,17 +112,17 @@
                             <table>
                                 <tr>
                                     <th class="text-left p-2">Subtotal</th>
-                                    <td class="p-2">${{ number_format($order->subtotal, 2) }}</td>
+                                    <td class="p-2">${{ number_format($order->subtotal / 100, 2) }}</td>
                                 </tr>
                                 <tr class="text-left border-t border-gray-300">
                                     <th class="p-2">Taxes ({{ $taxesPercent }}%)</th>
                                     <td class="p-2">
-                                        ${{ number_format($order->taxes, 2) }}
+                                        ${{ number_format($order->taxes / 100, 2) }}
                                     </td>
                                 </tr>
                                 <tr class="text-left border-t border-gray-300">
                                     <th class="p-2">Total</th>
-                                    <td class="p-2">${{ number_format($order->total, 2) }}</td>
+                                    <td class="p-2">${{ number_format($order->total / 100, 2) }}</td>
                                 </tr>
                             </table>
                         </div>
