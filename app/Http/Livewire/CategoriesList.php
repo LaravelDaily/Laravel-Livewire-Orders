@@ -47,11 +47,13 @@ class CategoriesList extends Component
 
         $this->category->save();
 
+        $this->resetValidation();
         $this->reset('showModal', 'editedCategoryId');
     }
 
     public function cancelCategoryEdit()
     {
+        $this->resetValidation();
         $this->reset('editedCategoryId');
     }
 
