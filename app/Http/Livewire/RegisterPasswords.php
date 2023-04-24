@@ -4,12 +4,13 @@ namespace App\Http\Livewire;
 
 use ZxcvbnPhp\Zxcvbn;
 use Livewire\Component;
+use Illuminate\Contracts\View\View;
 
 class RegisterPasswords extends Component
 {
     public string $password = '';
 
-    public string $password_confirmation = '';
+    public string $passwordConfirmation = '';
 
     public int $strengthScore = 0;
 
@@ -49,11 +50,11 @@ class RegisterPasswords extends Component
     protected function setPasswords($value): void
     {
         $this->password = $value;
-        $this->password_confirmation = $value;
+        $this->passwordConfirmation = $value;
         $this->updatedPassword($value);
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.register-passwords');
     }
