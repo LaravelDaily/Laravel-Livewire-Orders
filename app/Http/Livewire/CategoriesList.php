@@ -23,6 +23,10 @@ class CategoriesList extends Component
 
     public int $editedCategoryId = 0;
 
+    public int $currentPage = 1;
+
+	public int $perPage = 10;
+
     protected $listeners = ['delete'];
 
     public function openModal()
@@ -68,9 +72,10 @@ class CategoriesList extends Component
     {
         foreach ($list as $item) {
             $cat = $this->categories->firstWhere('id', $item['value']);
+            $order = $item['order'] + (($this->currentPage - 1) * $this->perPage);
 
-            if ($cat['position'] != $item['order']) {
-                Category::where('id', $item['value'])->update(['position' => $item['order']]);
+            if ($cat['position'] != $order) {
+                Category::where('id', $item['value'])->update(['position' => $order]);
             }
         }
     }
@@ -100,8 +105,9 @@ class CategoriesList extends Component
 
     public function render(): View
     {
-        $cats = Category::orderBy('position')->paginate(10);
+        $cats = Category::orderBy('position')->paginate($this->perPage);
         $links = $cats->links();
+        $this->currentPage = $cats->currentPage();
         $this->categories = collect($cats->items());
 
         $this->active = $this->categories->mapWithKeys(
