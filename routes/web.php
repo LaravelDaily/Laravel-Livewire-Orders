@@ -1,12 +1,12 @@
 <?php
 
-use App\Http\Livewire\OrderForm;
-use App\Http\Livewire\OrdersList;
-use App\Http\Livewire\ProductForm;
-use App\Http\Livewire\ProductsList;
-use App\Http\Livewire\CategoriesList;
-use App\Http\Controllers\ProfileController;
+use App\Livewire\OrderForm;
+use App\Livewire\OrdersList;
+use App\Livewire\ProductForm;
+use App\Livewire\ProductsList;
+use App\Livewire\CategoriesList;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------

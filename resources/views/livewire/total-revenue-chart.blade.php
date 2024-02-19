@@ -1,4 +1,4 @@
-<div wire:poll.60="updateChartData">
+<div wire:poll.60s="updateChartData">
     <canvas
         x-data="{
             chart: null,

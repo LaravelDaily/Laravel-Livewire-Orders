@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Livewire;
 
 use App\Models\Order;
 use Livewire\Component;
@@ -15,9 +15,7 @@ class TotalRevenueChart extends Component
 
     public function updateChartData(): void
     {
-        $this->emitSelf('updateChartData', [
-            'data' => $this->getData(),
-        ]);
+        $this->dispatch('updateChartData', data: $this->getData())->self();
     }
 
     protected function getData(): array

@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Livewire;
 
 use App\Models\Order;
 use Livewire\Component;
+use Livewire\Attributes\On;
 use Livewire\WithPagination;
+use Livewire\Attributes\Url;
 use Illuminate\Support\Carbon;
 use Illuminate\Contracts\View\View;
 
@@ -14,8 +16,10 @@ class OrdersList extends Component
 
     public array $selected = [];
 
+    #[Url]
     public string $sortColumn = 'orders.order_date';
 
+    #[Url]
     public string $sortDirection = 'asc';
 
     public array $searchColumns = [
@@ -25,8 +29,6 @@ class OrdersList extends Component
         'total' => ['', ''],
         'taxes' => ['', ''],
     ];
-
-    protected $listeners = ['delete', 'deleteSelected'];
 
     public function render(): View
     {
@@ -80,9 +82,9 @@ class OrdersList extends Component
         ]);
     }
 
-    public function deleteConfirm($method, $id = null): void
+    public function deleteConfirm(string $method, $id = null): void
     {
-        $this->dispatchBrowserEvent('swal:confirm', [
+        $this->dispatch('swal:confirm', [
             'type'  => 'warning',
             'title' => 'Are you sure?',
             'text'  => '',
@@ -91,11 +93,13 @@ class OrdersList extends Component
         ]);
     }
 
-    public function delete($id): void
+    #[On('delete')]
+    public function delete(int $id): void
     {
         Order::findOrFail($id)->delete();
     }
 
+    #[On('deleteSelected')]
     public function deleteSelected(): void
     {
         $orders = Order::whereIn('id', $this->selected)->get();
