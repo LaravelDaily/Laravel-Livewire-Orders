@@ -80,8 +80,10 @@
                                         <div>
                                             From
                                             <input x-data
-                                                   x-init="new Pikaday({ field: $el, format: 'MM/DD/YYYY' })"
-                                                   wire:model.lazy="searchColumns.order_date.0"
+                                                   x-init="new Pikaday({ field: $el, format: 'MM/DD/YYYY', onSelect: function() {
+                            @this.set('date', $refs.pikaday.value)
+                        } })"
+                                                   wire:model.blur="searchColumns.order_date.0"
                                                    type="text"
                                                    placeholder="MM/DD/YYYY"
                                                    class="mr-2 w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
@@ -90,40 +92,40 @@
                                             to
                                             <input x-data
                                                    x-init="new Pikaday({ field: $el, format: 'MM/DD/YYYY' })"
-                                                   wire:model.lazy="searchColumns.order_date.1"
+                                                   wire:model.blur="searchColumns.order_date.1"
                                                    type="text"
                                                    placeholder="MM/DD/YYYY"
                                                    class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
                                         </div>
                                     </td>
                                     <td class="px-1 py-1 text-sm">
-                                        <input wire:model="searchColumns.username" type="text" placeholder="Search..."
+                                        <input wire:model.live.debounce="searchColumns.username" type="text" placeholder="Search..."
                                                class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
                                     </td>
                                     <td class="px-1 py-1">
                                     </td>
                                     <td class="px-1 py-1 text-sm">
                                         From
-                                        <input wire:model="searchColumns.subtotal.0" type="number"
+                                        <input wire:model.live.debounce="searchColumns.subtotal.0" type="number"
                                                class="mr-2 w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
                                         to
-                                        <input wire:model="searchColumns.subtotal.1" type="number"
+                                        <input wire:model.live.debounce="searchColumns.subtotal.1" type="number"
                                                class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
                                     </td>
                                     <td class="px-1 py-1 text-sm">
                                         From
-                                        <input wire:model="searchColumns.taxes.0" type="number"
+                                        <input wire:model.live.debounce="searchColumns.taxes.0" type="number"
                                                class="mr-2 w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
                                         to
-                                        <input wire:model="searchColumns.taxes.1" type="number"
+                                        <input wire:model.live.debounce="searchColumns.taxes.1" type="number"
                                                class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
                                     </td>
                                     <td class="px-1 py-1 text-sm">
                                         From
-                                        <input wire:model="searchColumns.total.0" type="number"
+                                        <input wire:model.live.debounce="searchColumns.total.0" type="number"
                                                class="mr-2 w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
                                         to
-                                        <input wire:model="searchColumns.total.1" type="number"
+                                        <input wire:model.live.debounce="searchColumns.total.1" type="number"
                                                class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
                                     </td>
                                 </tr>
@@ -176,6 +178,7 @@
         </div>
     </div>
 </div>
+
 @push('js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>

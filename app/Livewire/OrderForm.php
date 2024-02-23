@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Livewire;
 
 use Carbon\Carbon;
 use App\Models\User;
@@ -14,7 +14,13 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class OrderForm extends Component
 {
-    public Order $order;
+    public ?Order $order = null;
+
+    public ?int $user_id;
+    public string $order_date = '';
+    public int $subtotal = 0;
+    public int $taxes = 0;
+    public int $total = 0;
 
     public Collection $allProducts;
 
@@ -28,10 +34,15 @@ class OrderForm extends Component
 
     public function mount(Order $order): void
     {
-        $this->order = $order;
-
-        if ($this->order->exists) {
+        if (! is_null($this->order)) {
             $this->editing = true;
+
+            $this->order = $order;
+            $this->user_id = $this->order->user_id;
+            $this->order_date = $this->order->order_date;
+            $this->subtotal = $this->order->subtotal;
+            $this->taxes = $this->order->taxes;
+            $this->total = $this->order->total;
 
             foreach ($this->order->products()->get() as $product) {
                 $this->orderProducts[] = [
@@ -43,7 +54,7 @@ class OrderForm extends Component
                 ];
             }
         } else {
-            $this->order->order_date = today();
+            $this->order_date = today();
         }
 
         $this->initListsForFields();
@@ -54,7 +65,7 @@ class OrderForm extends Component
     public function addProduct(): void
     {
         foreach ($this->orderProducts as $key => $product) {
-            if (!$product['is_saved']) {
+            if (! $product['is_saved']) {
                 $this->addError('orderProducts.' . $key, 'This line must be saved before creating a new one.');
                 return;
             }
@@ -96,13 +107,17 @@ class OrderForm extends Component
         $this->orderProducts = array_values($this->orderProducts);
     }
 
-    public function save(): RedirectResponse|Redirector
+    public function save(): void
     {
         $this->validate();
 
-        $this->order->order_date = Carbon::parse($this->order->order_date)->format('Y-m-d');
+        $this->order_date = Carbon::parse($this->order_date)->format('Y-m-d');
 
-        $this->order->save();
+        if (is_null($this->order)) {
+            $this->order = Order::create($this->only('user_id', 'order_date', 'subtotal', 'taxes', 'total'));
+        } else {
+            $this->order->update($this->only('user_id', 'order_date', 'subtotal', 'taxes', 'total'));
+        }
 
         $products = [];
 
@@ -112,21 +127,21 @@ class OrderForm extends Component
 
         $this->order->products()->sync($products);
 
-        return redirect()->route('orders.index');
+        $this->redirect(route('orders.index'));
     }
 
     public function render(): View
     {
-        $this->order->subtotal = 0;
+        $this->subtotal = 0;
 
         foreach ($this->orderProducts as $orderProduct) {
             if ($orderProduct['is_saved'] && $orderProduct['product_price'] && $orderProduct['quantity']) {
-                $this->order->subtotal += $orderProduct['product_price'] * $orderProduct['quantity'];
+                $this->subtotal += $orderProduct['product_price'] * $orderProduct['quantity'];
             }
         }
 
-        $this->order->total = $this->order->subtotal * (1 + $this->taxesPercent / 100);
-        $this->order->taxes = $this->order->total - $this->order->subtotal;
+        $this->total = $this->subtotal * (1 + $this->taxesPercent / 100);
+        $this->taxes = $this->total - $this->subtotal;
 
         return view('livewire.order-form');
     }
@@ -134,11 +149,11 @@ class OrderForm extends Component
     public function rules(): array
     {
         return [
-            'order.user_id' => ['required', 'integer', 'exists:users,id'],
-            'order.order_date' => ['required', 'date'],
-            'order.subtotal' => ['required', 'numeric'],
-            'order.taxes' => ['required', 'numeric'],
-            'order.total' => ['required', 'numeric'],
+            'user_id' => ['required', 'integer', 'exists:users,id'],
+            'order_date' => ['required', 'date'],
+            'subtotal' => ['required', 'numeric'],
+            'taxes' => ['required', 'numeric'],
+            'total' => ['required', 'numeric'],
             'orderProducts' => ['array']
         ];
     }

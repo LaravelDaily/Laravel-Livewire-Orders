@@ -75,11 +75,11 @@
                                 <tr>
                                     <td></td>
                                     <td class="px-2 py-2">
-                                        <input wire:model="searchColumns.name" type="text" placeholder="Search..."
+                                        <input wire:model.live.debounce="searchColumns.name" type="text" placeholder="Search..."
                                                class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
                                     </td>
                                     <td class="px-2 py-1">
-                                        <select wire:model="searchColumns.category_id"
+                                        <select wire:model.live="searchColumns.category_id"
                                                 class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                             <option value="">-- choose category --</option>
                                             @foreach($categories as $id => $category)
@@ -88,7 +88,7 @@
                                         </select>
                                     </td>
                                     <td class="px-2 py-1">
-                                        <select wire:model="searchColumns.country_id"
+                                        <select wire:model.live="searchColumns.country_id"
                                                 class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                             <option value="">-- choose country --</option>
                                             @foreach($countries as $id => $country)
@@ -99,12 +99,12 @@
                                     <td class="px-2 py-1 text-sm">
                                         <div>
                                             From
-                                            <input wire:model="searchColumns.price.0" type="number"
+                                            <input wire:model.live.debounce="searchColumns.price.0" type="number"
                                                    class="mr-2 w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
                                         </div>
                                         <div>
                                             to
-                                            <input wire:model="searchColumns.price.1" type="number"
+                                            <input wire:model.live.debounce="searchColumns.price.1" type="number"
                                                    class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
                                         </div>
                                     </td>
@@ -116,7 +116,7 @@
                                 @foreach($products as $product)
                                     <tr class="bg-white">
                                         <td class="px-4 py-2 text-sm leading-5 text-gray-900 whitespace-no-wrap">
-                                            <input type="checkbox" value="{{ $product->id }}" wire:model="selected">
+                                            <input type="checkbox" value="{{ $product->id }}" wire:model.live="selected">
                                         </td>
                                         <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
                                             {{ $product->name }}

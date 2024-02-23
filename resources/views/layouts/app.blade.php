@@ -14,7 +14,7 @@
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css" rel="stylesheet">
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        @livewireStyles
+{{--        @livewireStyles--}}
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
@@ -39,23 +39,25 @@
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         @livewireScripts
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="https://unpkg.com/@nextapps-be/livewire-sortablejs@0.2.0/dist/livewire-sortable.js"></script>
+        <script src="https://unpkg.com/@nextapps-be/livewire-sortablejs@0.4.1/dist/livewire-sortable.js"></script>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
-            window.addEventListener('swal:confirm', event => {
-                swal.fire({
-                    title: event.detail.title,
-                    text: event.detail.text,
-                    icon: event.detail.type,
-                    showCancelButton: true,
-                    confirmButtonColor: 'rgb(239 68 6)',
-                    confirmButtonText: 'Yes, delete it!'
+            document.addEventListener('livewire:init', () => {
+                Livewire.on('swal:confirm', (event) => {
+                    swal.fire({
+                        title: event[0].title,
+                        text: event[0].text,
+                        icon: event[0].type,
+                        showCancelButton: true,
+                        confirmButtonColor: 'rgb(239 68 6)',
+                        confirmButtonText: 'Yes, delete it!'
+                    })
+                        .then((willDelete) => {
+                            if (willDelete.isConfirmed) {
+                                Livewire.dispatch(event[0].method, { id: event[0].id });
+                            }
+                        });
                 })
-                    .then((willDelete) => {
-                        if (willDelete.isConfirmed) {
-                            window.livewire.emit(event.detail.method, event.detail.id);
-                        }
-                    });
             });
         </script>
         @stack('js')

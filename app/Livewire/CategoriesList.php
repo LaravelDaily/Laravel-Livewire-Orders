@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Category;
 use Illuminate\Support\Str;
+use Livewire\Attributes\On;
 use Livewire\WithPagination;
 use Illuminate\Support\Collection;
 use Illuminate\Contracts\View\View;
@@ -13,7 +14,10 @@ class CategoriesList extends Component
 {
     use WithPagination;
 
-    public Category $category;
+    public ?Category $category = null;
+
+    public string $name = '';
+    public string $slug = '';
 
     public Collection $categories;
 
@@ -27,48 +31,45 @@ class CategoriesList extends Component
 
 	public int $perPage = 10;
 
-    protected $listeners = ['delete'];
-
-    public function openModal()
+    public function openModal(): void
     {
         $this->showModal = true;
-
-        $this->category = new Category();
     }
 
-    public function updatedCategoryName()
+    public function updatedName(): void
     {
-        $this->category->slug = Str::slug($this->category->name);
+        $this->slug = Str::slug($this->name);
     }
 
-    public function save()
+    public function save(): void
     {
         $this->validate();
 
-        if ($this->editedCategoryId === 0) {
-            $this->category->position = Category::max('position') + 1;
+        if (is_null($this->category)) {
+            $position = Category::max('position') + 1;
+            Category::create(array_merge($this->only('name', 'slug'), ['position' => $position]));
+        } else {
+            $this->category->update($this->only('name', 'slug'));
         }
-
-        $this->category->save();
 
         $this->resetValidation();
         $this->reset('showModal', 'editedCategoryId');
     }
 
-    public function cancelCategoryEdit()
+    public function cancelCategoryEdit(): void
     {
         $this->resetValidation();
         $this->reset('editedCategoryId');
     }
 
-    public function toggleIsActive($categoryId)
+    public function toggleIsActive(int $categoryId): void
     {
         Category::where('id', $categoryId)->update([
             'is_active' => $this->active[$categoryId],
         ]);
     }
 
-    public function updateOrder($list)
+    public function updateOrder($list): void
     {
         foreach ($list as $item) {
             $cat = $this->categories->firstWhere('id', $item['value']);
@@ -80,16 +81,18 @@ class CategoriesList extends Component
         }
     }
 
-    public function editCategory($categoryId)
+    public function editCategory(int $categoryId): void
     {
         $this->editedCategoryId = $categoryId;
 
         $this->category = Category::find($categoryId);
+        $this->name = $this->category->name;
+        $this->slug = $this->category->slug;
     }
 
-    public function deleteConfirm($method, $id = null)
+    public function deleteConfirm(string $method, $id = null): void
     {
-        $this->dispatchBrowserEvent('swal:confirm', [
+        $this->dispatch('swal:confirm', [
             'type'   => 'warning',
             'title'  => 'Are you sure?',
             'text'   => '',
@@ -98,7 +101,8 @@ class CategoriesList extends Component
         ]);
     }
 
-    public function delete($id)
+    #[On('delete')]
+    public function delete($id): void
     {
         Category::findOrFail($id)->delete();
     }
@@ -122,8 +126,8 @@ class CategoriesList extends Component
     protected function rules(): array
     {
         return [
-            'category.name' => ['required', 'string', 'min:3'],
-            'category.slug' => ['nullable', 'string'],
+            'name' => ['required', 'string', 'min:3'],
+            'slug' => ['nullable', 'string'],
         ];
     }
 }
