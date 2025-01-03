@@ -32,11 +32,11 @@ class ProductsList extends Component
     public string $sortDirection = 'asc';
 
     public array $searchColumns = [
-        'name' => '',
-        'price' => ['', ''],
+        'name'        => '',
+        'price'       => ['', ''],
         'description' => '',
         'category_id' => 0,
-        'country_id' => 0,
+        'country_id'  => 0,
     ];
 
     public function mount(): void
@@ -53,10 +53,10 @@ class ProductsList extends Component
     public function deleteConfirm($method, $id = null): void
     {
         $this->dispatch('swal:confirm', [
-            'type'  => 'warning',
-            'title' => 'Are you sure?',
-            'text'  => '',
-            'id'    => $id,
+            'type'   => 'warning',
+            'title'  => 'Are you sure?',
+            'text'   => '',
+            'id'     => $id,
             'method' => $method,
         ]);
     }
@@ -81,7 +81,7 @@ class ProductsList extends Component
 
         foreach ($products as $product) {
             if ($product->orders()->exists()) {
-                $this->addError("orderexist", "Product <span class='font-bold'>{$product->name}</span> cannot be deleted, it already has orders");
+                $this->addError('orderexist', "Product <span class='font-bold'>{$product->name}</span> cannot be deleted, it already has orders");
                 return;
             }
         }
@@ -116,7 +116,7 @@ class ProductsList extends Component
             ->with('categories');
 
         foreach ($this->searchColumns as $column => $value) {
-            if (!empty($value)) {
+            if (! empty($value)) {
                 $products->when($column == 'price', function ($products) use ($value) {
                     if (is_numeric($value[0])) {
                         $products->where('products.price', '>=', $value[0] * 100);
@@ -125,16 +125,16 @@ class ProductsList extends Component
                         $products->where('products.price', '<=', $value[1] * 100);
                     }
                 })
-                ->when($column == 'category_id', fn($products) => $products->whereRelation('categories', 'id', $value))
-                ->when($column == 'country_id', fn($products) => $products->whereRelation('country', 'id', $value))
-                ->when($column == 'name', fn($products) => $products->where('products.' . $column, 'LIKE', '%' . $value . '%'));
+                    ->when($column == 'category_id', fn ($products) => $products->whereRelation('categories', 'id', $value))
+                    ->when($column == 'country_id', fn ($products) => $products->whereRelation('country', 'id', $value))
+                    ->when($column == 'name', fn ($products) => $products->where('products.' . $column, 'LIKE', '%' . $value . '%'));
             }
         }
 
         $products->orderBy($this->sortColumn, $this->sortDirection);
 
-        return view('livewire.products-list',  [
-            'products' => $products->paginate(10)
+        return view('livewire.products-list', [
+            'products' => $products->paginate(10),
         ]);
     }
 }

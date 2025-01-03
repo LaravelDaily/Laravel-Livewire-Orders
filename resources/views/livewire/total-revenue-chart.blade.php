@@ -27,6 +27,7 @@
             }
         }"
         style="height: 320px;"
-        wire:ignore>
+        wire:ignore
+    >
     </canvas>
 </div>
