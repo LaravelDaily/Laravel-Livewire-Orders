@@ -30,10 +30,10 @@ class TotalRevenueChart extends Component
             'datasets' => [
                 [
                     'label' => 'Total revenue from last 7 days',
-                    'data' => $data->map(fn (Order $order) => $order->total / 100),
-                ]
+                    'data'  => $data->map(fn (Order $order) => $order->total / 100),
+                ],
             ],
-            'labels' => $data->map(fn (Order $order) => $order->order_date->format('d/m/Y')),
+            'labels'   => $data->map(fn (Order $order) => $order->order_date->format('d/m/Y')),
         ];
     }
 }

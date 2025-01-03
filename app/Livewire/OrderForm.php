@@ -7,10 +7,8 @@ use App\Models\User;
 use App\Models\Order;
 use Livewire\Component;
 use App\Models\Product;
-use Livewire\Redirector;
 use Illuminate\Support\Collection;
 use Illuminate\Contracts\View\View;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class OrderForm extends Component
 {
@@ -46,11 +44,11 @@ class OrderForm extends Component
 
             foreach ($this->order->products()->get() as $product) {
                 $this->orderProducts[] = [
-                    'product_id' => $product->id,
-                    'quantity' => $product->pivot->quantity,
-                    'product_name' => $product->name,
+                    'product_id'    => $product->id,
+                    'quantity'      => $product->pivot->quantity,
+                    'product_name'  => $product->name,
                     'product_price' => $product->pivot->price,
-                    'is_saved' => true,
+                    'is_saved'      => true,
                 ];
             }
         } else {
@@ -72,11 +70,11 @@ class OrderForm extends Component
         }
 
         $this->orderProducts[] = [
-            'product_id' => '',
-            'quantity' => 1,
-            'is_saved' => false,
-            'product_name' => '',
-            'product_price' => 0
+            'product_id'    => '',
+            'quantity'      => 1,
+            'is_saved'      => false,
+            'product_name'  => '',
+            'product_price' => 0,
         ];
     }
 
@@ -92,7 +90,7 @@ class OrderForm extends Component
     public function editProduct($index): void
     {
         foreach ($this->orderProducts as $key => $invoiceProduct) {
-            if (!$invoiceProduct['is_saved']) {
+            if (! $invoiceProduct['is_saved']) {
                 $this->addError('$this->orderProducts.' . $key, 'This line must be saved before editing another.');
                 return;
             }
@@ -127,7 +125,7 @@ class OrderForm extends Component
 
         $this->order->products()->sync($products);
 
-        $this->redirect(route('orders.index'));
+        $this->redirectRoute('orders.index');
     }
 
     public function render(): View
@@ -149,12 +147,12 @@ class OrderForm extends Component
     public function rules(): array
     {
         return [
-            'user_id' => ['required', 'integer', 'exists:users,id'],
-            'order_date' => ['required', 'date'],
-            'subtotal' => ['required', 'numeric'],
-            'taxes' => ['required', 'numeric'],
-            'total' => ['required', 'numeric'],
-            'orderProducts' => ['array']
+            'user_id'       => ['required', 'integer', 'exists:users,id'],
+            'order_date'    => ['required', 'date'],
+            'subtotal'      => ['required', 'numeric'],
+            'taxes'         => ['required', 'numeric'],
+            'total'         => ['required', 'numeric'],
+            'orderProducts' => ['array'],
         ];
     }
 

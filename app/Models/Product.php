@@ -13,17 +13,17 @@ class Product extends Model
 
     protected $fillable = ['name', 'description', 'country_id', 'price'];
 
-    public function country(): belongsTo
+    public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class);
     }
 
-    public function categories(): belongsToMany
+    public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class);
     }
 
-    public function orders(): belongsToMany
+    public function orders(): BelongsToMany
     {
         return $this->belongsToMany(Order::class);
     }

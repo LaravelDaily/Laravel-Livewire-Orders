@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 
 class CountriesSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $countries = [
             [

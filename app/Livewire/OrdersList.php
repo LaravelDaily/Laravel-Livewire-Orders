@@ -23,11 +23,11 @@ class OrdersList extends Component
     public string $sortDirection = 'asc';
 
     public array $searchColumns = [
-        'username' => '',
+        'username'   => '',
         'order_date' => ['', ''],
-        'subtotal' => ['', ''],
-        'total' => ['', ''],
-        'taxes' => ['', ''],
+        'subtotal'   => ['', ''],
+        'total'      => ['', ''],
+        'taxes'      => ['', ''],
     ];
 
     public function render(): View
@@ -38,16 +38,16 @@ class OrdersList extends Component
             ->with('products');
 
         foreach ($this->searchColumns as $column => $value) {
-            if (!empty($value)) {
+            if (! empty($value)) {
                 $orders->when($column == 'order_date', function ($orders) use ($value) {
-                        if (!empty($value[0])) {
-                            $orders->whereDate('orders.order_date', '>=', Carbon::parse($value[0])->format('Y-m-d'));
-                        }
-                        if (!empty($value[1])) {
-                            $orders->whereDate('orders.order_date', '<=', Carbon::parse($value[1])->format('Y-m-d'));
-                        }
-                    })
-                    ->when($column == 'username', fn($orders) => $orders->where('users.name', 'LIKE', '%' . $value . '%'))
+                    if (! empty($value[0])) {
+                        $orders->whereDate('orders.order_date', '>=', Carbon::parse($value[0])->format('Y-m-d'));
+                    }
+                    if (! empty($value[1])) {
+                        $orders->whereDate('orders.order_date', '<=', Carbon::parse($value[1])->format('Y-m-d'));
+                    }
+                })
+                    ->when($column == 'username', fn ($orders) => $orders->where('users.name', 'LIKE', '%' . $value . '%'))
                     ->when($column == 'subtotal', function ($orders) use ($value) {
                         if (is_numeric($value[0])) {
                             $orders->where('orders.subtotal', '>=', $value[0] * 100);
@@ -78,17 +78,17 @@ class OrdersList extends Component
         $orders->orderBy($this->sortColumn, $this->sortDirection);
 
         return view('livewire.orders-list', [
-            'orders' => $orders->paginate(10)
+            'orders' => $orders->paginate(10),
         ]);
     }
 
     public function deleteConfirm(string $method, $id = null): void
     {
         $this->dispatch('swal:confirm', [
-            'type'  => 'warning',
-            'title' => 'Are you sure?',
-            'text'  => '',
-            'id'    => $id,
+            'type'   => 'warning',
+            'title'  => 'Are you sure?',
+            'text'   => '',
+            'id'     => $id,
             'method' => $method,
         ]);
     }
