@@ -7,7 +7,7 @@
 
     <div class="py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+            <div class="overflow-hidden bg-white shadow-xs sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
 
                     <form wire:submit="save">
@@ -24,7 +24,7 @@
                             <x-input-label for="description" :value="__('Description')" />
 
                             <div wire:ignore>
-                                <textarea wire:model="description" data-description="@this" id="description" class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
+                                <textarea wire:model="description" data-description="@this" id="description" class="block mt-1 w-full rounded-md border-gray-300 shadow-xs focus:border-indigo-300 focus:ring-3 focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
                             </div>
                             <x-input-error :messages="$errors->get('description')" class="mt-2" />
                         </div>

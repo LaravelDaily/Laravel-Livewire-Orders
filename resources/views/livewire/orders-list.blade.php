@@ -6,8 +6,8 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="mx-auto max-w-screen-2xl sm:px-6 lg:px-8">
-            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+        <div class="mx-auto max-w-(--breakpoint-2xl) sm:px-6 lg:px-8">
+            <div class="overflow-hidden bg-white shadow-xs sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
 
                     <div class="mb-4">
@@ -97,46 +97,46 @@
                                             })"
                                                 wire:model.blur="searchColumns.order_date.0" type="text"
                                                 placeholder="MM/DD/YYYY"
-                                                class="w-full mr-2 text-sm border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                                                class="w-full mr-2 text-sm border-gray-300 rounded-md shadow-xs focus:border-indigo-300 focus:ring-3 focus:ring-indigo-200 focus:ring-opacity-50" />
                                         </div>
                                         <div>
                                             to
                                             <input x-data x-init="new Pikaday({ field: $el, format: 'MM/DD/YYYY' })"
                                                 wire:model.blur="searchColumns.order_date.1" type="text"
                                                 placeholder="MM/DD/YYYY"
-                                                class="w-full text-sm border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                                                class="w-full text-sm border-gray-300 rounded-md shadow-xs focus:border-indigo-300 focus:ring-3 focus:ring-indigo-200 focus:ring-opacity-50" />
                                         </div>
                                     </td>
                                     <td class="px-1 py-1 text-sm">
                                         <input wire:model.live.debounce="searchColumns.username" type="text"
                                             placeholder="Search..."
-                                            class="w-full text-sm border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                                            class="w-full text-sm border-gray-300 rounded-md shadow-xs focus:border-indigo-300 focus:ring-3 focus:ring-indigo-200 focus:ring-opacity-50" />
                                     </td>
                                     <td class="px-1 py-1">
                                     </td>
                                     <td class="px-1 py-1 text-sm">
                                         From
                                         <input wire:model.live.debounce="searchColumns.subtotal.0" type="number"
-                                            class="w-full mr-2 text-sm border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                                            class="w-full mr-2 text-sm border-gray-300 rounded-md shadow-xs focus:border-indigo-300 focus:ring-3 focus:ring-indigo-200 focus:ring-opacity-50" />
                                         to
                                         <input wire:model.live.debounce="searchColumns.subtotal.1" type="number"
-                                            class="w-full text-sm border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                                            class="w-full text-sm border-gray-300 rounded-md shadow-xs focus:border-indigo-300 focus:ring-3 focus:ring-indigo-200 focus:ring-opacity-50" />
                                     </td>
                                     <td class="px-1 py-1 text-sm">
                                         From
                                         <input wire:model.live.debounce="searchColumns.taxes.0" type="number"
-                                            class="w-full mr-2 text-sm border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                                            class="w-full mr-2 text-sm border-gray-300 rounded-md shadow-xs focus:border-indigo-300 focus:ring-3 focus:ring-indigo-200 focus:ring-opacity-50" />
                                         to
                                         <input wire:model.live.debounce="searchColumns.taxes.1" type="number"
-                                            class="w-full text-sm border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                                            class="w-full text-sm border-gray-300 rounded-md shadow-xs focus:border-indigo-300 focus:ring-3 focus:ring-indigo-200 focus:ring-opacity-50" />
                                     </td>
                                     <td class="px-1 py-1 text-sm">
                                         From
                                         <input wire:model.live.debounce="searchColumns.total.0" type="number"
-                                            class="w-full mr-2 text-sm border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                                            class="w-full mr-2 text-sm border-gray-300 rounded-md shadow-xs focus:border-indigo-300 focus:ring-3 focus:ring-indigo-200 focus:ring-opacity-50" />
                                         to
                                         <input wire:model.live.debounce="searchColumns.total.1" type="number"
-                                            class="w-full text-sm border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                                            class="w-full text-sm border-gray-300 rounded-md shadow-xs focus:border-indigo-300 focus:ring-3 focus:ring-indigo-200 focus:ring-opacity-50" />
                                     </td>
                                 </tr>
                             </thead>

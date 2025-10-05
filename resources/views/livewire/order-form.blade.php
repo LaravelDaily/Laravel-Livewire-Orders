@@ -7,7 +7,7 @@
 
     <div class="py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+            <div class="overflow-hidden bg-white shadow-xs sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
 
                     <form wire:submit="save">
@@ -28,7 +28,7 @@
                                    wire:model.blur="order_date"
                                    autocomplete="off"
                                    placeholder="MM/DD/YYYY"
-                                   class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                                   class="w-full rounded-md border-gray-300 shadow-xs focus:border-indigo-300 focus:ring-3 focus:ring-indigo-200 focus:ring-opacity-50" />
                             <x-input-error :messages="$errors->get('order_date')" class="mt-2" />
                         </div>
 
@@ -54,7 +54,7 @@
                                                     (${{ number_format($orderProduct['product_price'] / 100, 2) }})
                                                 @endif
                                             @else
-                                                <select name="orderProducts[{{ $index }}][product_id]" class="focus:outline-none w-full border {{ $errors->has('$orderProducts.' . $index) ? 'border-red-500' : 'border-indigo-500' }} rounded-md p-1" wire:model.live="orderProducts.{{ $index }}.product_id">
+                                                <select name="orderProducts[{{ $index }}][product_id]" class="focus:outline-hidden w-full border {{ $errors->has('$orderProducts.' . $index) ? 'border-red-500' : 'border-indigo-500' }} rounded-md p-1" wire:model.live="orderProducts.{{ $index }}.product_id">
                                                     <option value="">-- choose product --</option>
                                                     @foreach ($this->allProducts as $product)
                                                         <option value="{{ $product->id }}">
@@ -75,7 +75,7 @@
                                                 <input type="hidden" name="orderProducts[{{$index}}][quantity]" wire:model="orderProducts.{{$index}}.quantity" />
                                                 {{ $orderProduct['quantity'] }}
                                             @else
-                                                <input type="number" step="1" name="orderProducts[{{$index}}][quantity]" class="p-1 w-full rounded-md border border-indigo-500 focus:outline-none" wire:model="orderProducts.{{$index}}.quantity" />
+                                                <input type="number" step="1" name="orderProducts[{{$index}}][quantity]" class="p-1 w-full rounded-md border border-indigo-500 focus:outline-hidden" wire:model="orderProducts.{{$index}}.quantity" />
                                             @endif
                                         </td>
                                         <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">

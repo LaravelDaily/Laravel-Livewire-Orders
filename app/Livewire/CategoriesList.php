@@ -29,7 +29,7 @@ class CategoriesList extends Component
 
     public int $currentPage = 1;
 
-	public int $perPage = 10;
+    public int $perPage = 10;
 
     public function openModal(): void
     {
@@ -69,7 +69,7 @@ class CategoriesList extends Component
         ]);
     }
 
-    public function updateOrder($list): void
+    public function updateOrder(array $list): void
     {
         foreach ($list as $item) {
             $cat = $this->categories->firstWhere('id', $item['value']);
@@ -102,7 +102,7 @@ class CategoriesList extends Component
     }
 
     #[On('delete')]
-    public function delete($id): void
+    public function delete(int $id): void
     {
         Category::findOrFail($id)->delete();
     }

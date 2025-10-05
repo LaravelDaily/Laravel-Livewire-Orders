@@ -56,7 +56,7 @@ class ProductForm extends Component
                 array_merge(
                     $this->only('name', 'description', 'country_id'),
                     ['price' => $this->price * 100]
-            ));
+                ));
         }
 
         $this->product->categories()->sync($this->categories);
@@ -72,11 +72,11 @@ class ProductForm extends Component
     protected function rules(): array
     {
         return [
-            'name' => ['required', 'string'],
+            'name'        => ['required', 'string'],
             'description' => ['required'],
-            'country_id' => ['required', 'integer', 'exists:countries,id'],
-            'price' => ['required'],
-            'categories' => ['required', 'array'],
+            'country_id'  => ['required', 'integer', 'exists:countries,id'],
+            'price'       => ['required'],
+            'categories'  => ['required', 'array'],
         ];
     }
 
